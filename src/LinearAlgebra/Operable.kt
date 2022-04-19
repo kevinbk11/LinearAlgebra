@@ -1,0 +1,5 @@
+package LinearAlgebra
+
+interface Operable {
+
+}
