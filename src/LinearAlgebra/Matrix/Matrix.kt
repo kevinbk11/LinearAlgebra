@@ -29,8 +29,19 @@ abstract class Matrix(private var matrix: List<MutableList<Int>>) {
                 val spaceCount=maxLength-matrix[r][c].toString().length
                 var space=""
                 for(i in 1..spaceCount)space+=" "
-                s+=String.format("%d${space}",matrix[r][c])
-                s+= if(c==column-1)"" else " "
+                if(c==column-1)
+                {
+                    val lastSpaceCount = matrix.maxOfOrNull{it[column-1]}.toString().length-matrix[r][c].toString().length
+                    var lastSpace=""
+                    for(i in 1..lastSpaceCount)lastSpace+=" "
+                    s+=String.format("%d${lastSpace}",matrix[r][c])
+                }
+                else
+                {
+                    s+=String.format("%d${space}",matrix[r][c])
+                }
+
+
             }
             s+="]\n"
         }
