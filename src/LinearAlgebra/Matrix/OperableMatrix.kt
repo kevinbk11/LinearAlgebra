@@ -12,8 +12,16 @@ open class OperableMatrix(private var matrix: List<MutableList<Int>>): Matrix(ma
     {
         return m+(this)*-1
     }
-    operator fun times(m:Int):OperableMatrix
+    operator fun times(k:Int):OperableMatrix
+    {
+        return this.getMatrix()*k
+    }
+    operator fun times(m:Matrix):OperableMatrix
     {
         return this.getMatrix()*m
+    }
+
+    fun T(): OperableMatrix {
+        return super.T(this)
     }
 }

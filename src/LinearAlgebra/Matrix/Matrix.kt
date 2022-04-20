@@ -1,5 +1,7 @@
 package LinearAlgebra.Matrix
 
+import java.lang.Math.abs
+
 abstract class Matrix(private var matrix: List<MutableList<Int>>) {
     var row=matrix.size
     var column=matrix[0].size
@@ -21,10 +23,10 @@ abstract class Matrix(private var matrix: List<MutableList<Int>>) {
         val maxNumber:Number? = matrix.maxOfOrNull { it.maxOf { it.toFloat() } }
         val maxLength = maxNumber.toString().length
         var s=""
-        for(r in matrix.indices)
+        for(r in 0 until row)
         {
             s+="["
-            for(c in matrix[0].indices)
+            for(c in 0 until column)
             {
                 val spaceCount=maxLength-matrix[r][c].toString().length
                 var space=""
@@ -40,13 +42,27 @@ abstract class Matrix(private var matrix: List<MutableList<Int>>) {
                 {
                     s+=String.format("%d${space}",matrix[r][c])
                 }
-
-
             }
             s+="]\n"
         }
         return s
     }
 
-
+    fun det():Int
+    {
+        if(row!=column)throw error("This matrix is not m*m matrix!")
+        var total = 0
+        for(r in 0 until row)
+        {
+            var pdiaTotal = 1
+            var ndiaTotal = 1
+            for(c in 0 until column)
+            {
+                pdiaTotal*=this[(r+c)%(row)][c]
+                ndiaTotal*=this[(r+c)%(row)][(column-1-c+row)%(row)]
+            }
+            total+=(pdiaTotal-ndiaTotal)
+        }
+        return total
+    }
 }
