@@ -14,7 +14,7 @@ fun main(args:Array<String>)
         val m2 = OperableMatrix(l2)
         val m3 = OperableMatrix(l3)
         val m4 = OperableMatrix(l4)
-        print(m2)
+        print(m2.det())
         print(m2.T())
     }
 }

@@ -47,22 +47,4 @@ abstract class Matrix(private var matrix: List<MutableList<Int>>) {
         }
         return s
     }
-
-    fun det():Int
-    {
-        if(row!=column)throw error("This matrix is not m*m matrix!")
-        var total = 0
-        for(r in 0 until row)
-        {
-            var pdiaTotal = 1
-            var ndiaTotal = 1
-            for(c in 0 until column)
-            {
-                pdiaTotal*=this[(r+c)%(row)][c]
-                ndiaTotal*=this[(r+c)%(row)][(column-1-c+row)%(row)]
-            }
-            total+=(pdiaTotal-ndiaTotal)
-        }
-        return total
-    }
 }
