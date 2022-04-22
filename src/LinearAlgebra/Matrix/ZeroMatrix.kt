@@ -1,3 +1,5 @@
 package LinearAlgebra.Matrix
+import LinearAlgebra.Vector.Vector
+import LinearAlgebra.Vector.ZeroVector
 
-class ZeroMatrix(m:Int, n:Int, matrix:List<MutableList<Int>> =List(m){MutableList(n){0} }): OperableMatrix(matrix)
+class ZeroMatrix(m:Int, n:Int, matrix:MutableList<Vector> =MutableList(m){ ZeroVector(n) }): OperableMatrix(matrix)
