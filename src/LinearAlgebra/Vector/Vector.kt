@@ -10,6 +10,16 @@ open class Vector {
         vector=ele.toMutableList()
         dim=ele.size
     }
+    constructor(vararg ele:Int)
+    {
+        val newMutableList = mutableListOf<Float>()
+        for(i in ele)
+        {
+            newMutableList+=i.toFloat()
+        }
+        vector=newMutableList
+        dim=ele.size
+    }
     constructor(list: MutableList<Float>)
     {
         vector=list
