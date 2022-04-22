@@ -2,12 +2,24 @@ import LinearAlgebra.Matrix.IdentityMatrix
 import LinearAlgebra.Matrix.OperableMatrix
 import LinearAlgebra.Matrix.ZeroMatrix
 import LinearAlgebra.Vector.Vector
-fun <T> t(t:T)
-{
+import kotlin.reflect.jvm.internal.impl.descriptors.VariableAccessorDescriptor
 
+class test<T>
+{
+    constructor(t:T)
+    {
+        when(t)
+        {
+            is Int->
+            {
+
+            }
+        }
+    }
 }
 fun main(args:Array<String>)
 {
+    val a:test<Float>
     for(i in 0..0)
     {
         val l1 = mutableListOf(Vector(1f,2f,3f),Vector(4f,5f,6f),Vector(7f,8f,9f),Vector(10f,11f,12f))
