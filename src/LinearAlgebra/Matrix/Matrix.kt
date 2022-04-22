@@ -28,9 +28,15 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         var s=""
         for(r in 1..row)
         {
-            s+=String.format("[%.${6-(matrix[r-1][1].toString().length-3)}f",matrix[r-1][1])
+            var spaceCount=matrix[r-1][1].toString().split(".")[0].length
+            println(spaceCount)
+            s+=String.format("[%.${8-spaceCount}f",matrix[r-1][1])
             for(c in 2..column)
-                s+=String.format(" %.${6-(matrix[r-1][c].toString().length-3)}f",matrix[r-1][c])
+            {
+                spaceCount=matrix[r-1][c].toString().split(".")[0].length
+                s+=String.format(" %.${8-spaceCount}f",matrix[r-1][c])
+            }
+
             s+="]\n"
         }
         return s

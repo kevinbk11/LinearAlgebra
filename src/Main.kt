@@ -23,7 +23,7 @@ fun main(args:Array<String>)
         val m6 = OperableMatrix(l6)
         val m7 = OperableMatrix(l7)
         val m8 = OperableMatrix(l8)
-        println(m7)
+        println(m7.inverse())
     }
 
 }
