@@ -30,7 +30,7 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
     override fun toString(): String {
         var instance = NumberFormat.getInstance()
         instance.isGroupingUsed=false
-        val maxLength = instance.format(matrix.maxOfOrNull { it.getVectorList().maxOf { it.toBigDecimal() } }).length
+        val maxLength = instance.format((matrix).maxOfOrNull { it.getVectorList().maxOf { it.toBigDecimal() } }).length
         println(maxLength)
         var s=""
         for(r in 1..row)
