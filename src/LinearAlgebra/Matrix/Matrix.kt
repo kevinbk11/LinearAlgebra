@@ -2,13 +2,15 @@ package LinearAlgebra.Matrix
 
 import LinearAlgebra.Vector.Vector
 import java.lang.Math.abs
+import java.math.BigDecimal
+import java.text.NumberFormat
 
 abstract class Matrix(private val matrix: MutableList<Vector>) {
     var row=matrix.size
     var column=matrix[0].dim
     fun getMatrix(): Matrix {return this}
     fun getMatrixList():MutableList<Vector>{return matrix}
-    operator fun get(row:Int,column:Int): Int
+    operator fun get(row:Int,column:Int):Float
     {
         return matrix[row-1][column-1]
     }
@@ -26,27 +28,29 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
     }
 
     override fun toString(): String {
-        val maxInt:Number? = matrix.maxOfOrNull { it.getVectorList().maxOf { it.toFloat() } }
-        val maxLength = maxInt.toString().length
+        var instance = NumberFormat.getInstance()
+        instance.isGroupingUsed=false
+        val maxLength = instance.format(matrix.maxOfOrNull { it.getVectorList().maxOf { it.toBigDecimal() } }).length
+        println(maxLength)
         var s=""
         for(r in 1..row)
         {
             s+="["
             for(c in 1..column)
             {
-                val spaceCount=maxLength-matrix[r-1][c].toString().length
+                val spaceCount=(maxLength-instance.format(matrix[r-1][c]).length)
                 var space=""
                 for(i in 1..spaceCount)space+=" "
                 if(c==column)
                 {
-                    val lastSpaceCount = matrix.maxOfOrNull{it[column].toString().length}!!-matrix[r-1][c].toString().length
+                    val lastSpaceCount = matrix.maxOfOrNull{instance.format(it[column]).length}!!-instance.format(matrix[r-1][c]).length
                     var lastSpace=""
                     for(i in 1..lastSpaceCount)lastSpace+=" "
-                    s+=String.format("%d${lastSpace}",matrix[r-1][c])
+                    s+=String.format("%.2f${lastSpace}",matrix[r-1][c])
                 }
                 else
                 {
-                    s+=String.format("%d${space}",matrix[r-1][c])
+                    s+=String.format("%.2f${space}",matrix[r-1][c])+" "
                 }
             }
             s+="]\n"

@@ -14,10 +14,10 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     operator fun minus(m:Matrix):OperableMatrix
     {
-        return m+(this)*-1
+        return m+(this)*-1f
     }
 
-    operator fun times(k:Int):OperableMatrix
+    operator fun times(k:Float):OperableMatrix
     {
         return this.getMatrix()*k
     }
@@ -37,18 +37,18 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         return newMatrix
     }
 
-    fun det():Int
+    fun det():Float
     {
         if(row!=column)throw error("This matrix is not m*m matrix!")
         if(row==2)return this[1][1]*this[2][2]-this[1][2]*this[2][1]
-        var total = 0
+        var total = 0f
         for(c in 1..column)
         {
             total+=pow(-1.0,c-1.0).toInt()*this[1][c]*cofactor(1,c)
         }
         return total
     }
-    fun cofactor(m:Int,n:Int):Int
+    fun cofactor(m:Int,n:Int):Float
     {
         val matrixList = getMatrixList().toMutableList()
         matrixList.removeAt(m-1)
@@ -67,11 +67,11 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
     {
         if(row!=column)throw error("this matrix is not square matrix!")
         val newList= mutableListOf<Vector>()
-        if(det()!=0)
+        if(det()!=0f)
         {
             for(i in 1..row)
             {
-                val newVectorList= mutableListOf<Int>()
+                var newVectorList= mutableListOf<Float>()
                 for(j in 1..row)
                 {
                     newVectorList+=cofactor(i,j)
@@ -89,7 +89,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         val newList = mutableListOf<Vector>()
         for(i in 1..row)
         {
-            val newVectorList= mutableListOf<Int>()
+            val newVectorList= mutableListOf<Float>()
             for(j in 1..row)
             {
                 newVectorList+=cofactor(i,j)*(pow(-1.0, ((i+j)%2).toDouble()).toInt()) // 正負正 :)

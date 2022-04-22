@@ -26,7 +26,7 @@ interface Operable {
         }
     }
 
-    operator fun Matrix.times(k:Int):OperableMatrix
+    operator fun Matrix.times(k:Float):OperableMatrix
     {
         var newMatrix= ZeroMatrix(row,column)
         for(r in 1..row)
