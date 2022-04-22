@@ -46,19 +46,6 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         {
             total+=pow(-1.0,c-1.0).toInt()*this[1][c]*cofactor(1,c)
         }
-        /*for(r in 0 until row)
-        {
-            var pdiaTotal = 1
-            var ndiaTotal = 1
-            for(c in 0 until column)
-            {
-                pdiaTotal*=this[(r+c)%(row)+1][c+1]
-                //print(this[(r+c)%(row)+1][c+1])
-                ndiaTotal*=this[(r+c)%(row)+1][(column-1-c+row)%(row)+1]
-                total=pdiaTotal-ndiaTotal
-            }
-            println()
-        }*/
         return total
     }
     fun cofactor(m:Int,n:Int):Int

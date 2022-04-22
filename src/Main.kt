@@ -5,7 +5,7 @@ import LinearAlgebra.Vector.Vector
 
 fun main(args:Array<String>)
 {
-    for(i in 0..0)
+    /*for(i in 0..0)
     {
         val l1 = mutableListOf(Vector(1,2,3),Vector(4,5,6),Vector(7,8,9),Vector(10,11,12))
         val l2 = mutableListOf(Vector(3,7,3),Vector(4,9,6),Vector(7,1,9))
@@ -19,6 +19,7 @@ fun main(args:Array<String>)
         val m4 = OperableMatrix(l4)
         val m5 = OperableMatrix(l5)
         val m6 = OperableMatrix(l6)
-        println(m6.det())
-    }
+        println(m5.det())
+    }*/
+
 }
