@@ -4,9 +4,12 @@ import LinearAlgebra.Matrix.IdentityMatrix
 import LinearAlgebra.Matrix.Matrix
 import LinearAlgebra.Matrix.OperableMatrix
 import LinearAlgebra.Matrix.ZeroMatrix
+import LinearAlgebra.Vector.OperableVector
+import LinearAlgebra.Vector.Vector
+import LinearAlgebra.Vector.ZeroVector
 
 interface Operable {
-
+    //---------------Matrix------------------------------------//
     operator fun Matrix.plus(m: Matrix): OperableMatrix
     {
         if(m.row==this.row && m.column==this.column)
@@ -26,12 +29,12 @@ interface Operable {
         }
     }
 
-    operator fun Matrix.times(k:Double):OperableMatrix
+    operator fun Matrix.times(k:Number):OperableMatrix
     {
         var newMatrix= ZeroMatrix(row,column)
         for(r in 1..row)
             for(c in 1..column)
-                newMatrix[r][c]+=this[r][c]*k
+                newMatrix[r][c]+=this[r][c]*k.toDouble()
         return newMatrix
     }
 
@@ -45,4 +48,28 @@ interface Operable {
                     newMatrix[i][j]+=this[i][k]*m[k][j]
         return newMatrix
     }
+    //---------------Matrix------------------------------------//
+
+    //---------------Vector------------------------------------//
+    operator fun Vector.plus(v:Vector):OperableVector
+    {
+        if(v.dim!=dim)throw error("The vector's dim is not match")
+        val newVector=ZeroVector(dim)
+        for(i in 1..dim)
+        {
+            newVector[i]+=this[i]+v[i]
+        }
+        return newVector
+    }
+
+    operator fun Vector.times(k:Number):OperableVector
+    {
+        val newVector=ZeroVector(dim)
+        for(i in 1..dim)
+        {
+            newVector[i]+=this[i]*k.toDouble()
+        }
+        return newVector
+    }
+    //---------------Vector------------------------------------//
 }

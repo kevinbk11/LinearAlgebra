@@ -1,38 +1,22 @@
 package LinearAlgebra.Matrix
 
 import LinearAlgebra.Operable
+import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 import java.lang.Math.pow
 
 
 open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matrix),Operable {
 
-    operator fun plus(m: Matrix): OperableMatrix
-    {
-        return m+this
-    }
+    operator fun plus(m: Matrix): OperableMatrix { return m+this }
 
-    operator fun minus(m:Matrix):OperableMatrix
-    {
-        return m+(this)*-1.0
-    }
+    operator fun minus(m:Matrix):OperableMatrix { return m+(this)*-1.0 }
 
-    operator fun times(k:Number):OperableMatrix
-    {
-        return this.getMatrix()*k.toDouble()
-    }
+    operator fun times(k:Number):OperableMatrix { return this.getMatrix()*k.toDouble() }
 
-    operator fun times(m:Matrix):OperableMatrix
-    {
+    operator fun times(m:Matrix):OperableMatrix { return this.getMatrix()*m }
 
-        return this.getMatrix()*m
-
-    }
-
-    operator fun div(k:Number):OperableMatrix
-    {
-        return this.getMatrix()*(1.0/k.toDouble())
-    }
+    operator fun div(k:Number):OperableMatrix { return this.getMatrix()*(1.0/k.toDouble()) }
 
 
     fun T():OperableMatrix
@@ -62,7 +46,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
         for(k in 0 until row-1)
         {
-            matrixList[k]=Vector(matrixList[k].getVectorList().toMutableList())
+            matrixList[k]=OperableVector(matrixList[k].getVectorList().toMutableList())
             matrixList[k].getVectorList().removeAt(n-1)
             matrixList[k].dim--
         }
@@ -86,12 +70,12 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         val newList = mutableListOf<Vector>()
         for(i in 1..row)
         {
-            val newVectorList= mutableListOf<Double>()
+            val newVectorList= mutableListOf<Number>()
             for(j in 1..row)
             {
                 newVectorList+=cofactor(i,j)*(pow(-1.0, ((i+j)).toDouble()).toInt()) // 正負正 :)
             }
-            newList+=Vector(newVectorList)
+            newList+=OperableVector(newVectorList)
         }
         return OperableMatrix(newList).T()
     }

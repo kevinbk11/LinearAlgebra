@@ -1,3 +1,3 @@
 package LinearAlgebra.Vector
-import LinearAlgebra.Vector.Vector
-class ZeroVector(m:Int):Vector(MutableList(m){0.0})
+
+class ZeroVector(m:Int):OperableVector(MutableList(m){0})

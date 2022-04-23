@@ -1,31 +1,25 @@
 package LinearAlgebra.Vector
 
 
-open class Vector {
+abstract class Vector(list: MutableList<Number>) {
     var dim:Int
-    private var vector:MutableList<Double> = mutableListOf()
-    var test = mutableListOf<Number>()
-    constructor(vararg ele:Double)
-    {
-        vector=ele.toMutableList()
-        dim=ele.size
-    }
-    constructor(vararg ele:Int)
-    {
-        val newMutableList = mutableListOf<Double>()
-        for(i in ele)
-        {
-            newMutableList+=i.toDouble()
-        }
-        vector=newMutableList
-        dim=ele.size
-    }
-    constructor(list: MutableList<Double>)
-    {
-        vector=list
+    var vector:MutableList<Double> = mutableListOf()
+
+    init {
+        vector=list.toMutableList() as MutableList<Double>
         dim=list.size
     }
-
+    fun getVector():Vector {return this}
+    /*constructor(array: MutableList<Int>)
+    {
+        val newMutableList= mutableListOf<Double>()
+        for(element in array)
+        {
+            newMutableList+=element.toDouble()
+        }
+        vector=newMutableList
+        dim=array.size
+    }*/
 
 
     fun getVectorList():MutableList<Double>{return vector}
@@ -37,6 +31,5 @@ open class Vector {
     operator fun get(m:Int):Double{return vector[m-1]}
 
     operator fun set(i: Int, value: Double) { vector[i-1]=value }
-
 
 }
