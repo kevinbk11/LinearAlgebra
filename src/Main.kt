@@ -1,12 +1,5 @@
-import LinearAlgebra.Matrix.OperableMatrix
-import LinearAlgebra.Vector.OperableVector
-import LinearAlgebra.Vector.Vector
-import LinearAlgebra.Vector.ZeroVector
-
-class t(v:MutableList<Vector>)
-{
-
-}
+import LinearAlgebra.Matrix.*
+import LinearAlgebra.Vector.*
 fun main(args:Array<String>)
 {
 
