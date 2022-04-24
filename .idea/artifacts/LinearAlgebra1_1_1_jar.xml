@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="LinearAlgebra:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/LinearAlgebra_jar</output-path>
+  <artifact type="jar" name="LinearAlgebra1.1.1.jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LinearAlgebra1_1_1_jar</output-path>
     <root id="archive" name="LinearAlgebra.jar">
       <element id="module-output" name="LinearAlgebra" />
       <element id="extracted-dir" path="$KOTLIN_BUNDLED$/lib/kotlin-stdlib.jar" path-in-jar="/" />
