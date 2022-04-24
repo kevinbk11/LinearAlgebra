@@ -32,4 +32,12 @@ abstract class Vector(list: MutableList<Number>) {
 
     operator fun set(i: Int, value: Double) { vector[i-1]=value }
 
+    open infix fun dot(v:Vector):Double
+    {
+        var total = 0.0
+        for(i in 1..dim)
+            total+=v[i]*this[i]
+        return total
+    }
+
 }

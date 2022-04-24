@@ -61,7 +61,7 @@ fun main(args:Array<String>)
 
         val v1 = OperableVector(1,2,3)
         val v2 = OperableVector(4,5,6)
-        print(v1/2)
+        print(v1 dot v2)
     }
 
 }
