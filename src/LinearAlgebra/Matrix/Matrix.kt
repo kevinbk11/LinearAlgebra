@@ -7,19 +7,24 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
     var row=matrix.size
     var column=matrix[0].dim
     fun getMatrix(): Matrix {return this}
-    fun getMatrixList(): MutableList<Vector> {return matrix}
+    fun getMatrixList(): MutableList<Vector> {return matrix.toMutableList()}
 
-    operator fun get(row:Int): Vector
+    fun removeRow(r:Int)
     {
-        return matrix[row-1]
+       matrix.removeAt(r-1)
+       row--
     }
 
-    operator fun set(row:Int,v:OperableVector)
+    fun removeColumn(c:Int)
     {
-        matrix[row-1]=v
-        matrix[row-1].dim=v.dim
-        column=v.dim
+        for(i in 1..row)
+            this[i].removeAt(c)
+        column--
     }
+
+    operator fun get(row:Int): Vector { return matrix[row-1] }
+
+    operator fun set(row:Int,v:Vector) { matrix[row-1]=v }
 
     override fun toString(): String {
         var s=""

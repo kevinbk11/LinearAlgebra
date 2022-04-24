@@ -1,5 +1,7 @@
 import LinearAlgebra.Matrix.*
 import LinearAlgebra.Vector.*
+import LinearAlgebra.copy
+
 fun main(args:Array<String>)
 {
 
@@ -57,11 +59,12 @@ fun main(args:Array<String>)
         val m6 = OperableMatrix(l6)
         val m7 = OperableMatrix(l7)
         val m8 = OperableMatrix(l8)
-        print(m1+m1)
+        //print(m1+m1)
 
         val v1 = OperableVector(1,2,3)
         val v2 = OperableVector(4,5,6)
-        print(v1 dot v2)
+        println(m2)
+        //print(v1 dot v2)
     }
 
 }

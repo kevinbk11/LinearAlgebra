@@ -14,7 +14,7 @@ interface Operable {
     {
         if(m.row==this.row && m.column==this.column)
         {
-            var newMatrix= ZeroMatrix(m.row,m.column)
+            val newMatrix= ZeroMatrix(m.row,m.column)
 
             for(r in 1..m.row)
                 for(c in 1..m.column)

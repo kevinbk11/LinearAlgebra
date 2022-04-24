@@ -3,6 +3,7 @@ package LinearAlgebra.Matrix
 import LinearAlgebra.Operable
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
+import LinearAlgebra.copy
 import java.lang.Math.pow
 
 
@@ -41,17 +42,12 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
     }
     fun cofactor(m:Int,n:Int):Double
     {
-        val matrixList = getMatrixList().toMutableList()
-        matrixList.removeAt(m-1)
+        val mat = copy(this)
 
-        for(k in 0 until row-1)
-        {
-            matrixList[k]=OperableVector(matrixList[k].getVectorList().toMutableList())
-            matrixList[k].getVectorList().removeAt(n-1)
-            matrixList[k].dim--
-        }
+        mat.removeRow(m)
+        mat.removeColumn(n)
 
-        return OperableMatrix(matrixList).det()
+        return (mat).det()
     }
 
     fun inverse():OperableMatrix
@@ -72,9 +68,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         {
             val newVectorList= mutableListOf<Number>()
             for(j in 1..row)
-            {
-                newVectorList+=cofactor(i,j)*(pow(-1.0, ((i+j)).toDouble()).toInt()) // 正負正 :)
-            }
+                newVectorList+=cofactor(i,j)*(pow(-1.0, ((i+j)).toDouble()).toInt())
             newList+=OperableVector(newVectorList)
         }
         return OperableMatrix(newList).T()
