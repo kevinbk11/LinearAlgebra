@@ -10,12 +10,13 @@ kotlin 線性代數模組
 - 餘因子 Matrix.det(i,j)
 - 求逆 Matrix.inverse()
 - 伴隨矩陣 Matrix.adj()
-- 刪除某行或某列
+- 刪除某行或某列 removeRow(r) & removeColumn(c)
 向量
 -
 
 - 加減 v1(+ -)m2
 - 內積 v1 dot v2 (infix)
+- 刪除某元素 removeAt(i)
 
 其他函式
 -
