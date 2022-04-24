@@ -4,10 +4,12 @@ import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 
 abstract class Matrix(private val matrix: MutableList<Vector>) {
+
     var row=matrix.size
+
     var column=matrix[0].dim
+
     fun getMatrix(): Matrix {return this}
-    fun getMatrixList(): MutableList<Vector> {return matrix.toMutableList()}
 
     fun removeRow(r:Int)
     {

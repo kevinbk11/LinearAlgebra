@@ -10,14 +10,13 @@ abstract class Vector(list: MutableList<Number>) {
         vector.removeAt(i-1)
         dim--
     }
+
     init {
         vector=list.toMutableList() as MutableList<Double>
         dim=list.size
     }
+
     fun getVector():Vector {return this}
-
-
-    fun getVectorList():MutableList<Double>{return vector}
 
     override fun toString(): String {
         return vector.toString()
