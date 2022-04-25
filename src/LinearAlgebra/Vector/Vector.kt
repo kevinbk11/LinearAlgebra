@@ -20,9 +20,7 @@ abstract class Vector(list: MutableList<Number>) {
 
     fun getVector():Vector {return this}
 
-    override fun toString(): String {
-        return vector.toString()
-    }
+    override fun toString(): String { return vector.toString() }
 
     operator fun get(m:Int):Double{return vector[m-1]}
 
@@ -45,5 +43,10 @@ abstract class Vector(list: MutableList<Number>) {
         return OperableVector(m.cofactor(1, 1), -m.cofactor(1, 2), m.cofactor(1, 3))
     }
 
-
+    open fun isZeroVector():Boolean
+    {
+        for(ele in vector)
+            if(ele!=0.0)return false
+        return true
+    }
 }

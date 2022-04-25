@@ -24,7 +24,7 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         column--
     }
 
-    operator fun get(row:Int): Vector { return matrix[row-1] }
+    operator fun get(row:Int): OperableVector { return matrix[row-1] as OperableVector }
 
     operator fun set(row:Int,v:Vector) { matrix[row-1]=v }
 

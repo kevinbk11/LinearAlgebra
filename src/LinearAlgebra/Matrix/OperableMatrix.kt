@@ -74,6 +74,70 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         }
         return OperableMatrix(newList).T()
     }
+    fun rowOperation(i:Int,j:Int,k:Int)
+    {
+        this[j]=this[j]-this[i]*k
+    }
+    fun solveEquation(B:Matrix):Matrix
+    {
+        val newThis=copy(this)
+        val newB = copy(B)
 
-    fun solveEquation(B:Matrix):Matrix { return this.inverse()*B }
+        val removeZeroVector = {i:Int->
+            newThis.removeRow(i)
+            newB.removeRow(i)
+        }
+
+        val rowOperation = {i:Int,j:Int,k:Double->
+            newThis[j]=newThis[j]-(newThis[i]*k)
+            newB[j]=newB[j]-(newB[i]*k)
+        }
+        for(i in 1..newThis.row)
+        {
+            for(j in i+1..newThis.row)
+            {
+
+                if(newThis[j][i]==0.0) { newThis[j]=newThis[j+1].also { newThis[j+1]=newThis[j] } }
+
+                val k = (newThis[j][i]/newThis[i][i])
+
+                rowOperation(i,j,k)
+
+                if(newThis[j].isZeroVector())
+                {
+                    removeZeroVector(j)
+                    break
+                }
+
+            }
+        }
+
+        for(i in newThis.row downTo 1)
+        {
+            for(j in i-1 downTo 1)
+            {
+                if(newThis[j][i]==0.0) { newThis[j]=newThis[j+1].also { newThis[j+1]=newThis[j] } }
+
+                val k = (newThis[j][i]/newThis[i][i])
+
+                rowOperation(i,j,k)
+
+                if(newThis[j].isZeroVector())
+                {
+                    removeZeroVector(j)
+                    break
+                }
+            }
+        }
+
+
+        for(i in 1..newThis.row)
+        {
+            val k = newThis[i][i]
+            newThis[i]=newThis[i]/k
+            newB[i]=newB[i]/k
+        }
+
+        return newThis
+    }
 }

@@ -78,24 +78,27 @@ fun main(args:Array<String>)
 
         val m9 = OperableMatrix(l9)
         val m10 =OperableMatrix(l10)
-        val sol = m9.inverse()*m10
 
-        val builder=MatrixBuilder(l2)
-        val createdMatrix = builder.create()
-        val createdMatrix2 = builder.create()
-        builder.clear()
-        builder.addVector(1,2,3)
-            .addVector(4,5,6)
-            .addVector(7,0,9)
-        val createdMatrix3 = builder.create()
-        println(createdMatrix3)
+        val builder=MatrixBuilder()
+
+        builder.addVector(4,5,6)
+            .addVector(7,8,9)
+            .addVector(1,2,3)
+
+        val createdMatrix1 = builder.create()
+        val createdMatrix2=
+            builder.clear()
+            .addVector(1)
+            .addVector(2)
+            .addVector(3)
+                .create()
         //print(m1+m1)
-
+        createdMatrix1.solveEquation(createdMatrix2)
         val v1 = OperableVector(1,2,3)
         val v2 = OperableVector(4,5,6)
 
 
-        print(v1 cross v2)
+        //print(v1 cross v2)
     }
 
 }
