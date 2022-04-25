@@ -36,7 +36,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         var total = 0.0
         for(c in 1..column)
         {
-            total+=pow(-1.0,c-1.0).toInt()*this[1][c]*cofactor(1,c)
+            total+=this[1][c]*cofactor(1,c)*pow(-1.0,c.toDouble()+1.0 )
         }
         return total
     }
@@ -60,6 +60,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         }
         else throw error("this matrix is not invertible! (det=0)")
     }
+
     fun adj():OperableMatrix
     {
         if(row!=column)throw error("this matrix is not square matrix!")
@@ -73,4 +74,6 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         }
         return OperableMatrix(newList).T()
     }
+
+    fun solveEquation(B:Matrix):Matrix { return this.inverse()*B }
 }

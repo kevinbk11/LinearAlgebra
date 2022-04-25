@@ -29,5 +29,6 @@ class MatrixBuilder {
         matrix= mutableListOf()
         return this
     }
-    fun create():Matrix{ return copy(OperableMatrix(matrix))}
+
+    fun create():OperableMatrix{ return copy(OperableMatrix(matrix))}
 }

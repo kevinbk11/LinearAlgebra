@@ -1,5 +1,7 @@
 package LinearAlgebra.Vector
 
+import LinearAlgebra.Matrix.MatrixBuilder
+
 
 abstract class Vector(list: MutableList<Number>) {
     var dim:Int
@@ -33,5 +35,15 @@ abstract class Vector(list: MutableList<Number>) {
             total+=v[i]*this[i]
         return total
     }
+
+    open infix fun cross(v: Vector): Vector {
+        val builder = MatrixBuilder()
+        builder.addVector(1, 1, 1)
+            .addVector(this)
+            .addVector(v)
+        val m = builder.create()
+        return OperableVector(m.cofactor(1, 1), -m.cofactor(1, 2), m.cofactor(1, 3))
+    }
+
 
 }

@@ -93,8 +93,9 @@ fun main(args:Array<String>)
 
         val v1 = OperableVector(1,2,3)
         val v2 = OperableVector(4,5,6)
-        //println(m2)
-        //print(v1 dot v2)
+
+
+        print(v1 cross v2)
     }
 
 }
