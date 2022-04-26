@@ -29,10 +29,10 @@ fun main(args:Array<String>)
             OperableVector(7,8,9))
 
         val l5 = mutableListOf<Vector>(
+            OperableVector(3,2,6,9),
+            OperableVector(2,8,14,18),
             OperableVector(1,4,7,9),
-            OperableVector(6,5,4,2),
-            OperableVector(3,9,8,7),
-            OperableVector(6,5,0,1))
+            OperableVector(1,4,7,9))
 
         val l6 = mutableListOf<Vector>(
             OperableVector(1,4,12,9,3),
@@ -81,24 +81,25 @@ fun main(args:Array<String>)
 
         val builder=MatrixBuilder()
 
-        builder.addVector(4,5,6)
-            .addVector(7,8,9)
+        builder.addVector(1,2,3)
+            .addVector(1,2,3)
             .addVector(1,2,3)
 
-        val createdMatrix1 = builder.create()
-        val createdMatrix2=
-            builder.clear()
-            .addVector(1)
-            .addVector(2)
-            .addVector(3)
-                .create()
+        val m11 = builder.create()
+        val m12= builder.clear()
+            .addVector(0)
+            .addVector(0)
+            .addVector(0)
+            .addVector(0)
+            .create()
         //print(m1+m1)
-        createdMatrix1.solveEquation(createdMatrix2)
+        println(m5.solveEquation(m12))
         val v1 = OperableVector(1,2,3)
         val v2 = OperableVector(4,5,6)
 
-
         //print(v1 cross v2)
+
+        //todo 無解 和 無限多解
     }
 
 }

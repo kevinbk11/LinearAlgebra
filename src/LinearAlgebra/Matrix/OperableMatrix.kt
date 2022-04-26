@@ -4,8 +4,8 @@ import LinearAlgebra.Operable
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 import LinearAlgebra.copy
+import java.lang.Error
 import java.lang.Math.pow
-
 
 open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matrix),Operable {
 
@@ -52,7 +52,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun inverse():OperableMatrix
     {
-        if(row!=column)throw error("this matrix is not square matrix!")
+        if(row!=column)throw error("this matrix is m*m matrix!")
         if(det()!=0.0)
         {
             val adjMatrix = adj()
@@ -74,12 +74,11 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         }
         return OperableMatrix(newList).T()
     }
-    fun rowOperation(i:Int,j:Int,k:Int)
+
+    fun solveEquation(B:Matrix):Matrix?
     {
-        this[j]=this[j]-this[i]*k
-    }
-    fun solveEquation(B:Matrix):Matrix
-    {
+        var oneSolution = true
+
         val newThis=copy(this)
         val newB = copy(B)
 
@@ -94,50 +93,57 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         }
         for(i in 1..newThis.row)
         {
+            var removed = 0
             for(j in i+1..newThis.row)
             {
+                val realJ=j-removed
+                if(newThis[realJ][i]==0.0) { newThis[realJ]=newThis[realJ+1].also { newThis[realJ+1]=newThis[realJ] } }
 
-                if(newThis[j][i]==0.0) { newThis[j]=newThis[j+1].also { newThis[j+1]=newThis[j] } }
+                val k = (newThis[realJ][i]/newThis[i][i])
 
-                val k = (newThis[j][i]/newThis[i][i])
+                rowOperation(i,realJ,k)
 
-                rowOperation(i,j,k)
-
-                if(newThis[j].isZeroVector())
-                {
-                    removeZeroVector(j)
-                    break
-                }
-
+                if(newThis[realJ].isZeroVector() && newB[realJ].isZeroVector()) { removeZeroVector(realJ) ; removed++}
+                else if(newThis[realJ].isZeroVector()) { return null }
             }
         }
 
         for(i in newThis.row downTo 1)
         {
+            var removed = 0
             for(j in i-1 downTo 1)
             {
-                if(newThis[j][i]==0.0) { newThis[j]=newThis[j+1].also { newThis[j+1]=newThis[j] } }
+                val realJ=j-removed
+                if(newThis[realJ][i]==0.0) { newThis[realJ]=newThis[realJ+1].also { newThis[realJ+1]=newThis[realJ] } }
 
-                val k = (newThis[j][i]/newThis[i][i])
+                val k = (newThis[realJ][i]/newThis[i][i])
 
-                rowOperation(i,j,k)
+                rowOperation(i,realJ,k)
 
-                if(newThis[j].isZeroVector())
-                {
-                    removeZeroVector(j)
-                    break
-                }
+                if(newThis[realJ].isZeroVector() && newB[realJ].isZeroVector()) { removeZeroVector(realJ) ; removed++}
+                else if(newThis[realJ].isZeroVector()) { return null }
             }
         }
 
+        val builder=MatrixBuilder()
 
-        for(i in 1..newThis.row)
+        if(newThis.row!=row)
         {
-            val k = newThis[i][i]
-            newThis[i]=newThis[i]/k
-            newB[i]=newB[i]/k
-        }
+            for(i in 1..newThis.row)
+            {
+                val k = newThis[i][i]
+                newThis[i]=newThis[i]/k
+                newB[i]=newB[i]/k
 
-        return newThis
+                val vectorList = mutableListOf<Number>()
+                for(j in 1..newThis.column)
+                    vectorList.add(newThis[i][j])
+
+                vectorList.add(newB[i][1])
+                builder.addVector(OperableVector(vectorList))
+            }
+            return builder.create()
+        }
+        else return newB
     }
 }
