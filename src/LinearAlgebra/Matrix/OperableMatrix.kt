@@ -77,73 +77,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun solveEquation(B:Matrix):Matrix?
     {
-        var oneSolution = true
-
-        val newThis=copy(this)
-        val newB = copy(B)
-
-        val removeZeroVector = {i:Int->
-            newThis.removeRow(i)
-            newB.removeRow(i)
-        }
-
-        val rowOperation = {i:Int,j:Int,k:Double->
-            newThis[j]=newThis[j]-(newThis[i]*k)
-            newB[j]=newB[j]-(newB[i]*k)
-        }
-        for(i in 1..newThis.row)
-        {
-            var removed = 0
-            for(j in i+1..newThis.row)
-            {
-                val realJ=j-removed
-                if(newThis[realJ][i]==0.0) { newThis[realJ]=newThis[realJ+1].also { newThis[realJ+1]=newThis[realJ] } }
-
-                val k = (newThis[realJ][i]/newThis[i][i])
-
-                rowOperation(i,realJ,k)
-
-                if(newThis[realJ].isZeroVector() && newB[realJ].isZeroVector()) { removeZeroVector(realJ) ; removed++}
-                else if(newThis[realJ].isZeroVector()) { return null }
-            }
-        }
-
-        for(i in newThis.row downTo 1)
-        {
-            var removed = 0
-            for(j in i-1 downTo 1)
-            {
-                val realJ=j-removed
-                if(newThis[realJ][i]==0.0) { newThis[realJ]=newThis[realJ+1].also { newThis[realJ+1]=newThis[realJ] } }
-
-                val k = (newThis[realJ][i]/newThis[i][i])
-
-                rowOperation(i,realJ,k)
-
-                if(newThis[realJ].isZeroVector() && newB[realJ].isZeroVector()) { removeZeroVector(realJ) ; removed++}
-                else if(newThis[realJ].isZeroVector()) { return null }
-            }
-        }
-
-        val builder=MatrixBuilder()
-
-        if(newThis.row!=row)
-        {
-            for(i in 1..newThis.row)
-            {
-                val k = newThis[i][i]
-                newThis[i]=newThis[i]/k
-                newB[i]=newB[i]/k
-
-                val vectorList = mutableListOf<Number>()
-                for(j in 1..newThis.column)
-                    vectorList.add(newThis[i][j])
-
-                vectorList.add(newB[i][1])
-                builder.addVector(OperableVector(vectorList))
-            }
-            return builder.create()
-        }
-        else return newB
+        //TODO 重寫比較快幹你娘
+        return null
     }
 }

@@ -1,6 +1,6 @@
 package LinearAlgebra.Vector
 
-import LinearAlgebra.Matrix.MatrixBuilder
+import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
 
 
 abstract class Vector(list: MutableList<Number>) {
@@ -35,10 +35,10 @@ abstract class Vector(list: MutableList<Number>) {
     }
 
     open infix fun cross(v: Vector): Vector {
-        val builder = MatrixBuilder()
-        builder.addVector(1, 1, 1)
-            .addVector(this)
-            .addVector(v)
+        val builder = OperableMatrixBuilder()
+        builder.addRow(1, 1, 1)
+            .addRow(this)
+            .addRow(v)
         val m = builder.create()
         return OperableVector(m.cofactor(1, 1), -m.cofactor(1, 2), m.cofactor(1, 3))
     }
