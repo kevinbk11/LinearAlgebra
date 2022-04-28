@@ -6,19 +6,19 @@ import LinearAlgebra.Vector.ZeroVector
 abstract class VectorBuilder {
     protected var vector = mutableListOf<Number>()
     var clearAfterCreate = false
-    fun addElement(e:Number):VectorBuilder
+    open fun addElement(e:Number):VectorBuilder
     {
         vector+=e
         return this
     }
 
-    fun addElement(vararg e:Number):VectorBuilder
+    open fun addElement(vararg e:Number):VectorBuilder
     {
         vector+=e
         return this
     }
 
-    fun setElement(m:MutableList<Number>):VectorBuilder
+    open fun setElement(m:MutableList<Number>):VectorBuilder
     {
         vector=m
         return this

@@ -34,7 +34,7 @@ abstract class Vector(list: MutableList<Number>) {
         return total
     }
 
-    open infix fun cross(v: Vector): Vector {
+    open infix fun cross(v: Vector): OperableVector {
         val builder = OperableMatrixBuilder()
         builder.addRow(1, 1, 1)
             .addRow(this)

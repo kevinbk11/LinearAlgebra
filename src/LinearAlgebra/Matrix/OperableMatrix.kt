@@ -1,10 +1,11 @@
 package LinearAlgebra.Matrix
 
+import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
 import LinearAlgebra.Operable
+import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 import LinearAlgebra.copy
-import java.lang.Error
 import java.lang.Math.pow
 
 open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matrix),Operable {
@@ -64,15 +65,17 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
     fun adj():OperableMatrix
     {
         if(row!=column)throw error("this matrix is not square matrix!")
-        val newList = mutableListOf<Vector>()
+
+        val mBuilder = OperableMatrixBuilder()
+        val vBuilder = OperableVectorBuilder()
+
         for(i in 1..row)
         {
-            val newVectorList= mutableListOf<Number>()
             for(j in 1..row)
-                newVectorList+=cofactor(i,j)*(pow(-1.0, ((i+j)).toDouble()).toInt())
-            newList+=OperableVector(newVectorList)
+                vBuilder.addElement(cofactor(i,j)*(pow(-1.0, ((i+j)).toDouble()).toInt()))
+            mBuilder.addRow(vBuilder.create())
         }
-        return OperableMatrix(newList).T()
+        return mBuilder.create().T()
     }
 
     fun solveEquation(B:Matrix):Matrix?

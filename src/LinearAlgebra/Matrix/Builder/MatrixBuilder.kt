@@ -19,19 +19,19 @@ abstract class MatrixBuilder {
     }
     constructor()
 
-    fun addRow(v: Vector):MatrixBuilder
+    open fun addRow(v: Vector):MatrixBuilder
     {
         matrix+=v
         return this
     }
 
-    fun addRow(vararg v:Number):MatrixBuilder
+    open fun addRow(vararg v:Number):MatrixBuilder
     {
         matrix+= OperableVector(v.toMutableList())
         return this
     }
 
-    fun clear():MatrixBuilder
+    open fun clear():MatrixBuilder
     {
         matrix= mutableListOf()
         return this
