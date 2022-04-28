@@ -4,10 +4,11 @@ import LinearAlgebra.Vector.*
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.copy
 
-import java.util.*
+
 
 fun main(args:Array<String>)
 {
+
     val operableMatrixBuilder=OperableMatrixBuilder()
     operableMatrixBuilder.clearAfterCreate=true
 
@@ -63,7 +64,8 @@ fun main(args:Array<String>)
             .addRow(-6)
             .addRow(-2)
             .create()
-        print(copy(m7).det())
+        //print(copy(m7).det())
+
     }
 
     val vb = OperableVectorBuilder()

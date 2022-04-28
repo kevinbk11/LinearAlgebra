@@ -37,7 +37,7 @@ interface Operable {
     operator fun Matrix.times(m:Matrix):OperableMatrix
     {
         if(column!=m.row)throw error("Matrix's size not match.")
-        var newMatrix= ZeroMatrix(row,m.column)
+        val newMatrix= ZeroMatrix(row,m.column)
 
         for(i in 1..row)
             for(j in 1..m.column)
@@ -46,6 +46,8 @@ interface Operable {
 
         return newMatrix
     }
+
+
     //---------------Matrix------------------------------------//
 
     //---------------Vector------------------------------------//

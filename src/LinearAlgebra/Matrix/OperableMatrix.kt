@@ -12,7 +12,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     operator fun plus(m: Matrix): OperableMatrix { return m+this }
 
-    operator fun minus(m:Matrix):OperableMatrix { return m+(this)*-1.0 }
+    operator fun minus(m:Matrix):OperableMatrix { return this+(m*-1.0) }
 
     operator fun times(k:Number):OperableMatrix { return this.getMatrix()*k.toDouble() }
 
@@ -20,6 +20,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     operator fun div(k:Number):OperableMatrix { return this.getMatrix()*(1.0/k.toDouble()) }
 
+    operator fun div(m:OperableMatrix):OperableMatrix { return this.getMatrix()*m.inverse()}
 
     fun T():OperableMatrix
     {
@@ -67,8 +68,9 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         if(row!=column)throw error("this matrix is not square matrix!")
 
         val mBuilder = OperableMatrixBuilder()
+        mBuilder.clearAfterCreate=true
         val vBuilder = OperableVectorBuilder()
-
+        vBuilder.clearAfterCreate=true
         for(i in 1..row)
         {
             for(j in 1..row)

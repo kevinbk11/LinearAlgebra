@@ -28,6 +28,22 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
 
     operator fun set(row:Int,v:Vector) { matrix[row-1]=v }
 
+    override fun equals(other:Any?):Boolean
+    {
+        when(other)
+        {
+            is Matrix->
+            {
+                if(other.row!=row || other.column!=column) return false
+                for(i in 1..other.row)
+                    for(j in 1..other.column)
+                        if(other[i][j]!=this[i][j]) return false
+                return true
+            }
+            else -> return false
+        }
+    }
+
     override fun toString(): String {
         var s=""
         for(r in 1..row)
