@@ -3,12 +3,15 @@ import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
 import LinearAlgebra.Vector.*
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.copy
+import java.lang.Math.pow
+import java.lang.Math.sqrt
+import java.math.BigDecimal
+import java.math.BigInteger
 
 
 
 fun main(args:Array<String>)
 {
-
     val operableMatrixBuilder=OperableMatrixBuilder()
     operableMatrixBuilder.clearAfterCreate=true
 
@@ -65,18 +68,60 @@ fun main(args:Array<String>)
             .addRow(-2)
             .create()
         //print(copy(m7).det())
-
+        val m9 = this
+            .addRow(1,2,3)
+            .addRow(1,2,3)
+            .addRow(1,2,4)
+            .create()
+        val m10 = this
+            .addRow(1)
+            .addRow(1)
+            .addRow(2)
+            .create()
+        //print(m9.solveEquation(m10))
+        //print(m7.inverse()*m8)
+        val m11 = this
+            .addRow(1,2,3)
+            .addRow(2,9,3)
+            .addRow(1,0,4)
+            .create()
+        var mkv = this
+            .addRow(0.5,0.4,0.6)
+            .addRow(0.2,0.2,0.3)
+            .addRow(0.3,0.4,0.1)
+            .create()
+        var a = this
+            .addRow(0)
+            .addRow(1)
+            .addRow(0)
+            .create()
+        val vb=OperableVectorBuilder()
+        vb.clearAfterCreate=true
+        val v1=vb.addElement(3,1).create()
+        val v2=vb.addElement(2,2).create()
+        print(gram(mutableListOf(v1,v2)))
+        //print(mkv.inverse()*m11.inverse()==(m11*mkv).inverse())
+        //print(newMkv*a*(1.0/newMkv[3][1]))
     }
-
     val vb = OperableVectorBuilder()
-    vb.clearAfterCreate=true
-    val w =vb
-        .addElement(1)
-        .addElement(2)
-        .addElement(3,4,5)
-        .create()
 
-
+    with(operableMatrixBuilder)
+    {
+        /*val m1 = this
+            .addRow(1,1)
+            .addRow(2,1)
+            .addRow(3,1)
+            .addRow(4,1)
+            .create()
+        val m2 = this
+            .addRow(2)
+            .addRow(3)
+            .addRow(5)
+            .addRow(7)
+            .create()
+        //print(m1.T()*m1)
+    print(((m1.T()*m1).inverse()*m1.T())*m2)*/
+    }
 
     /*val l20 = mutableListOf<Vector>(
         OperableVector(-2,5,1,3,4,-1),

@@ -3,7 +3,7 @@ package LinearAlgebra.Vector.Builder
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 
-class OperableVectorBuilder: VectorBuilder() {
+class OperableVectorBuilder(clearAfterCreate:Boolean=false): VectorBuilder(clearAfterCreate) {
 
     override fun addElement(vararg e: Number): OperableVectorBuilder { return super.addElement(*e) as OperableVectorBuilder }
 
@@ -15,6 +15,11 @@ class OperableVectorBuilder: VectorBuilder() {
     {
         val v = OperableVector(vector)
         if(clearAfterCreate) { clear() }
-        return v
+        return v as OperableVector
     }
+
+    override fun clear(): OperableVectorBuilder {
+        return super.clear() as OperableVectorBuilder
+    }
+
 }

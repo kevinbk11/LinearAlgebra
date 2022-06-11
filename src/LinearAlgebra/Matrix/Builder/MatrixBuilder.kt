@@ -7,18 +7,8 @@ import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 import LinearAlgebra.copy
 
-abstract class MatrixBuilder {
-
-    protected var matrix = mutableListOf<Vector>()
-
-    var clearAfterCreate = false
-
-    constructor(matrix : MutableList<Vector>)
-    {
-        this.matrix=matrix
-    }
-    constructor()
-
+abstract class MatrixBuilder(protected var matrix: MutableList<Vector> = mutableListOf(), var clearAfterCreate: Boolean=false)
+{
     open fun addRow(v: Vector):MatrixBuilder
     {
         matrix+=v

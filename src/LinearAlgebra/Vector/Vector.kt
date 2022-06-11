@@ -1,6 +1,7 @@
 package LinearAlgebra.Vector
 
 import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
+import kotlin.math.sqrt
 
 
 abstract class Vector(list: MutableList<Number>) {
@@ -26,6 +27,26 @@ abstract class Vector(list: MutableList<Number>) {
 
     operator fun set(i: Int, value: Number) { vector[i-1]=value.toDouble() }
 
+    override fun equals(other: Any?): Boolean {
+
+        when(other)
+        {
+            is Vector->
+            {
+
+                if(other.dim!=dim)return false
+                else
+                {
+                    for(i in 1..dim)
+                        if(other[i].toFloat()!=this[i].toFloat())
+                            return false
+                    return true
+                }
+            }
+            else -> return false
+        }
+    }
+
     open infix fun dot(v:Vector):Double
     {
         var total = 0.0
@@ -48,5 +69,13 @@ abstract class Vector(list: MutableList<Number>) {
         for(ele in vector)
             if(ele!=0.0)return false
         return true
+    }
+
+    open fun magnitude():Double
+    {
+        var total = 0.0
+        for(ele in vector)
+            total+=(ele*ele)
+        return sqrt(total)
     }
 }

@@ -3,9 +3,8 @@ package LinearAlgebra.Vector.Builder
 import LinearAlgebra.Vector.Vector
 import LinearAlgebra.Vector.ZeroVector
 
-abstract class VectorBuilder {
+abstract class VectorBuilder(var clearAfterCreate: Boolean=false) {
     protected var vector = mutableListOf<Number>()
-    var clearAfterCreate = false
     open fun addElement(e:Number):VectorBuilder
     {
         vector+=e
@@ -24,7 +23,7 @@ abstract class VectorBuilder {
         return this
     }
 
-    fun clear():VectorBuilder
+    open fun clear():VectorBuilder
     {
         vector= mutableListOf()
         return this

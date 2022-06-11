@@ -1,5 +1,6 @@
 package LinearAlgebra.Matrix
 
+import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 
@@ -10,6 +11,18 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
     var column=matrix[0].dim
 
     fun getMatrix(): Matrix {return this}
+
+    fun getRowVector(row:Int):OperableVector {return matrix[row-1] as OperableVector}
+
+    fun getColumnVector(column:Int):OperableVector
+    {
+        val builder = OperableVectorBuilder()
+
+        for(i in matrix)
+            builder.addElement(i[column])
+
+        return builder.create()
+    }
 
     fun removeRow(r:Int)
     {
@@ -37,7 +50,7 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
                 if(other.row!=row || other.column!=column) return false
                 for(i in 1..other.row)
                     for(j in 1..other.column)
-                        if(other[i][j]!=this[i][j]) return false
+                        if(other[i][j].toFloat()!=this[i][j].toFloat()) return false
                 return true
             }
             else -> return false

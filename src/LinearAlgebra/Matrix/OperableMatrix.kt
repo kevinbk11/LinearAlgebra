@@ -34,6 +34,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
     fun det():Double
     {
         if(row!=column)throw error("This matrix is not m*m matrix!")
+        if(row==1)return this[1][1]
         if(row==2)return this[1][1]*this[2][2]-this[1][2]*this[2][1]
         var total = 0.0
         for(c in 1..column)
@@ -82,7 +83,6 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun solveEquation(B:Matrix):Matrix?
     {
-        //TODO 重寫比較快幹你娘
-        return null
+        return ZeroMatrix(0,0)
     }
 }
