@@ -72,4 +72,16 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         }
         return s
     }
+
+    operator fun iterator(): Iterator<OperableVector> {
+        return object : Iterator<OperableVector> {
+            var i = 0
+
+            override fun hasNext(): Boolean = i < matrix.size
+
+            override fun next(): OperableVector = matrix[i++] as OperableVector
+
+        }
+    }
+
 }
