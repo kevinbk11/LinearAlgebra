@@ -21,7 +21,14 @@ abstract class Vector(list: MutableList<Number>) {
 
     fun getVector():Vector {return this}
 
-    override fun toString(): String { return vector.toString() }
+    override fun toString(): String
+    {
+        var s="[%.6f".format(this[1])
+        for(e in vector.slice(1 until dim))
+            s+=",%.6f".format(e)
+        s+="]"
+        return s
+    }
 
     operator fun get(m:Int):Double{return vector[m-1]}
 
