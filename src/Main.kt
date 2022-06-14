@@ -81,9 +81,10 @@ fun main(args:Array<String>)
         //print(m9.solveEquation(m10))
         //print(m7.inverse()*m8)
         val m11 = this
-            .addRow(1,2,3)
-            .addRow(2,9,3)
-            .addRow(1,0,4)
+            .addRow(1,-1,4)
+            .addRow(1,4,-2)
+            .addRow(1,4,2)
+            .addRow(1,-1,0)
             .create()
         var mkv = this
             .addRow(0.5,0.4,0.6)
@@ -100,7 +101,7 @@ fun main(args:Array<String>)
         val v1=vb.addElement(3,1).create()
         val v2=vb.addElement(2,2).create()
         val QR=QR(m11)
-
+        print(QR)
         //print(mkv.inverse()*m11.inverse()==(m11*mkv).inverse())
         //print(newMkv*a*(1.0/newMkv[3][1]))
     }
