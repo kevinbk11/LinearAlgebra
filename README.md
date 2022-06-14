@@ -11,9 +11,11 @@ kotlin 線性代數模組
 - 求逆 Matrix.inverse()
 - 伴隨矩陣 Matrix.adj()
 - 刪除某行或某列 removeRow(r) & removeColumn(c)
+- getRowVector(i)和getColumnVector(i) 可以得到該矩陣的第i個row或第i個column
 - QR() 得到一個Pair first為Q second=R
 - LU() 得到一個Pair first為L second=U
 - solveEquationWithLU(B) 用該矩陣的LU分解下去解得Ax=B的x
+
 向量
 -
 
