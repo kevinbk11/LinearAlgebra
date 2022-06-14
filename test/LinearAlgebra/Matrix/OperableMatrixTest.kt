@@ -1,11 +1,12 @@
 package LinearAlgebra.Matrix
 
+
 import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
 import junit.framework.TestCase
 
 class OperableMatrixTest : TestCase()
 {
-    val builder=OperableMatrixBuilder(clearAfterCreate = true)
+    val builder= OperableMatrixBuilder(clearAfterCreate = true)
 
     val m1 = builder
         .addRow(1,2,3)
