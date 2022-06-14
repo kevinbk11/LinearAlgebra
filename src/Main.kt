@@ -70,9 +70,9 @@ fun main(args:Array<String>)
             .create()
         //print(copy(m7).det())
         val m9 = this
-            .addRow(1,2,3)
-            .addRow(1,2,3)
-            .addRow(1,2,4)
+            .addRow(2,1,3)
+            .addRow(4,1,7)
+            .addRow(-6,-2,-12)
             .create()
         val m10 = this
             .addRow(1)
@@ -101,8 +101,11 @@ fun main(args:Array<String>)
         vb.clearAfterCreate=true
         val v1=vb.addElement(3,1).create()
         val v2=vb.addElement(2,2).create()
+        val b=OperableMatrix(mutableListOf((OperableVector(-1,5,-2))))
 
-        print(v1)
+        val x=m9.solveEquationWithLU(b.T())
+        print(x)
+        //print(m11.QR())
         //print(mkv.inverse()*m11.inverse()==(m11*mkv).inverse())
         //print(newMkv*a*(1.0/newMkv[3][1]))
     }
