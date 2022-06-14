@@ -145,4 +145,5 @@ class OperableMatrixTest : TestCase()
 
         assertEquals(test,ans)
     }
+
 }

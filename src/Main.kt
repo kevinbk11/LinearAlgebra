@@ -2,6 +2,7 @@ import LinearAlgebra.Matrix.*
 import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
 import LinearAlgebra.Vector.*
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
+
 import LinearAlgebra.copy
 import java.lang.Math.pow
 import java.lang.Math.sqrt
@@ -96,7 +97,7 @@ fun main(args:Array<String>)
             .addRow(1)
             .addRow(0)
             .create()
-        val vb=OperableVectorBuilder()
+        val vb= OperableVectorBuilder()
         vb.clearAfterCreate=true
         val v1=vb.addElement(3,1).create()
         val v2=vb.addElement(2,2).create()
