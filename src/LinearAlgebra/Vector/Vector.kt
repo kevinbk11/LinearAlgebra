@@ -26,7 +26,7 @@ abstract class Vector(list: MutableList<Number>) {
         var s="[%.6f".format(this[1])
         for(e in vector.slice(1 until dim))
             s+=",%.6f".format(e)
-        s+="]"
+        s+="]\n"
         return s
     }
 

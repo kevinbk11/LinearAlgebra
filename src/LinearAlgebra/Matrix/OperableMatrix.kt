@@ -5,6 +5,8 @@ import LinearAlgebra.Operable
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
+import LinearAlgebra.Vector.ZeroVector
+import LinearAlgebra.Vector.gram
 import LinearAlgebra.copy
 import java.lang.Math.pow
 
@@ -81,8 +83,81 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         return mBuilder.create().T()
     }
 
-    fun solveEquation(B:Matrix):Matrix?
+    fun QR():Pair<OperableMatrix,OperableMatrix>
     {
-        return ZeroMatrix(0,0)
+        val vectorSet = mutableListOf<OperableVector>()
+
+        for(v in 1..column)
+            vectorSet.add(getColumnVector(v))
+
+        val gramed= gram(vectorSet)
+        val vBuilder = OperableVectorBuilder(clearAfterCreate = true)
+        val mBuilder = OperableMatrixBuilder(clearAfterCreate = true)
+
+        for(v in gramed)
+            mBuilder.addRow(v)
+
+        val Q=mBuilder.create().T()
+        for(i in 1..column)
+        {
+            val RList= mutableListOf<Double>()
+            for(j in 1 until i)
+                RList+=0.0
+            for(j in i..column)
+                RList+=(getColumnVector(j) dot Q.getColumnVector(i))
+            mBuilder.addRow(vBuilder.setElement(RList as MutableList<Number>).create())
+        }
+        val R = mBuilder.create()
+        return Pair(Q,R)
+    }
+
+    fun LU():Pair<OperableMatrix,OperableMatrix>
+    {
+        val L = IdentityMatrix(row)
+        val U = copy(this)
+        for(r1 in 1..row)
+        {
+            for(r2 in r1+1..row)
+            {
+                val k = U[r2][r1]/U[r1][r1]
+                U[r2]-=(U[r1]*(k))
+                L[r2][r1]=k
+            }
+        }
+        return(Pair(L,U))
+    }
+
+    fun solveEquationWithLU(B:OperableMatrix):OperableMatrix
+    {
+        fun solve(m: OperableMatrix,b:OperableMatrix):OperableMatrix
+        {
+            val Y=ZeroMatrix(B.row,1)
+            Y[1][1]=b[1][1]/m[1][1]
+            for(i in 2..row)
+            {
+                var total = b[i][1]
+                for(j in 1..i)
+                {
+                    total-=m[i][j]*Y[j][1]
+                }
+                Y[i][1]=total/m[i][i]
+            }
+            return Y
+        }
+
+        val LU=LU()
+        val L=LU.first
+        val U=LU.second
+        val Y=solve(L,B)
+        val UT=U.T()
+
+        for(i in 1..row/2)
+        {
+            UT[i][i]=UT[row+1-i][row+1-i].also{UT[row+1-i][row+1-i]=UT[i][i]}
+            Y[i][1]=Y[row+1-i][1].also{Y[row+1-i][1]=Y[i][1]}
+        }
+        val X=solve(UT,Y)
+        for(i in 1..row/2)X[i][1]=X[row+1-i][1].also { X[row+1-i][1]= X[i][1]}
+       return X
     }
 }
