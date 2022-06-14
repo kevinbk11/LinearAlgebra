@@ -20,4 +20,6 @@ kotlin 線性代數模組
 
 其他函式
 -
-- copy(Matrix or Vector) 可以複製輸入的矩陣或向量
+- copy(OperableMatrix or Vector) 可以複製輸入的矩陣或向量
+- QR(OperableMatrix) 得到一個Pair first為Q second=R
+- gram(MutableList<OperableVector>) 將該List中的向量正交單範化
