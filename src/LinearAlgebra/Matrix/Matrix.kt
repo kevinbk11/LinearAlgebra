@@ -1,5 +1,6 @@
 package LinearAlgebra.Matrix
 
+import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
 
@@ -10,6 +11,18 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
     var column=matrix[0].dim
 
     fun getMatrix(): Matrix {return this}
+
+    fun getRowVector(row:Int):OperableVector {return matrix[row-1] as OperableVector}
+
+    fun getColumnVector(column:Int):OperableVector
+    {
+        val builder = OperableVectorBuilder()
+
+        for(i in matrix)
+            builder.addElement(i[column])
+
+        return builder.create()
+    }
 
     fun removeRow(r:Int)
     {
@@ -24,9 +37,25 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         column--
     }
 
-    operator fun get(row:Int): Vector { return matrix[row-1] }
+    operator fun get(row:Int): OperableVector { return matrix[row-1] as OperableVector }
 
     operator fun set(row:Int,v:Vector) { matrix[row-1]=v }
+
+    override fun equals(other:Any?):Boolean
+    {
+        when(other)
+        {
+            is Matrix->
+            {
+                if(other.row!=row || other.column!=column) return false
+                for(i in 1..other.row)
+                    for(j in 1..other.column)
+                        if(other[i][j].toFloat()!=this[i][j].toFloat()) return false
+                return true
+            }
+            else -> return false
+        }
+    }
 
     override fun toString(): String {
         var s=""
@@ -43,4 +72,16 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         }
         return s
     }
+
+    operator fun iterator(): Iterator<OperableVector> {
+        return object : Iterator<OperableVector> {
+            var i = 0
+
+            override fun hasNext(): Boolean = i < matrix.size
+
+            override fun next(): OperableVector = matrix[i++] as OperableVector
+
+        }
+    }
+
 }
