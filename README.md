@@ -5,47 +5,7 @@ kotlin 線性代數模組
 #### 此模組中，矩陣的表示位置與數學上相同，最左上角的元素為(1,1)而非(0,0)
 #### 且可以透過m[i][j]來取得矩陣內的元素
 #### 而m[i]取出來的為向量
-- 加減乘除 
- ```kt
- m1(+ - * / )m2
- ```
-- 行列式
-```kt
- OperableMatrix.det()
- ```
-- 餘因子
- ```kt
- OperableMatrix.det(i,j)
- ```
-- 求逆 
-```kt
-OperableMatrix.inverse()
-```
-- 伴隨矩陣 
-```kt
-OperableMatrix.adj()
-```
-- 刪除某行或某列
-```kt
-OperableMatrix.removeRow(r)
-OperableMatrix.removeColumn(c)
- ```
-- QR分解
-```kt
-OperableMatrix.QR()
-```
-- LU分解
-```kt
-OperableMatrix.LU()
-````
-- LU分解解得Ax=B的x
-```kt
-OperableMatrix.solveEquationWithLU(B) 
-```
-- 求特徵值(使用QR疊代)
- ```kt
-OperableMatrix.eigenvalue()
-```
+
 向量
 -
 
