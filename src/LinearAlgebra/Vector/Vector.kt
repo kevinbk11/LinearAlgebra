@@ -67,7 +67,7 @@ abstract class Vector(list: MutableList<Number>) {
         for(i in 1..dim)
             total+=v[i]*this[i]
 
-        return if(total>0.00000001) total else 0.0
+        return if(abs(total)>0.00000001) total else 0.0
     }
 
     open infix fun cross(v: Vector): OperableVector {
@@ -81,8 +81,6 @@ abstract class Vector(list: MutableList<Number>) {
 
     open fun isZeroVector():Boolean
     {
-        /*for(ele in vector)
-            if(ele==0.0)return false*/
         if(magnitude()>0.00000001)return false
         return true
     }
