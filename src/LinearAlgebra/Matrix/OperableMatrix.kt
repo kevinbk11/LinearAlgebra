@@ -5,10 +5,11 @@ import LinearAlgebra.Operable
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 import LinearAlgebra.Vector.OperableVector
 import LinearAlgebra.Vector.Vector
-import LinearAlgebra.Vector.ZeroVector
 import LinearAlgebra.Vector.gram
 import LinearAlgebra.copy
+import java.lang.Math.abs
 import java.lang.Math.pow
+
 
 open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matrix),Operable {
 
@@ -83,7 +84,7 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         return mBuilder.create().T()
     }
 
-    fun QR():Pair<OperableMatrix,OperableMatrix>
+    fun QR():QRDataClass
     {
         val vectorSet = mutableListOf<OperableVector>()
 
@@ -108,10 +109,10 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
             mBuilder.addRow(vBuilder.setElement(RList as MutableList<Number>).create())
         }
         val R = mBuilder.create()
-        return Pair(Q,R)
+        return QRDataClass(Q,R)
     }
 
-    fun LU():Pair<OperableMatrix,OperableMatrix>
+    fun LU():LUDataClass
     {
         val L = IdentityMatrix(row)
         val U = copy(this)
@@ -124,7 +125,39 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
                 L[r2][r1]=k
             }
         }
-        return(Pair(L,U))
+        return LUDataClass(L,U)
+    }
+
+    fun eigenvalue():List<Double>
+    {
+        var A=copy(this)
+        var QR:QRDataClass
+        var lastEigenvalue:MutableList<Double>
+        val thisEigenvalue = mutableListOf<Double>()
+        val eigenvalue = mutableListOf<Double>()
+        var t = 0
+
+        do
+        {
+            lastEigenvalue=thisEigenvalue.toMutableList()
+            thisEigenvalue.clear()
+            QR=A.QR()
+            A=QR.R*QR.Q
+            for(i in 1..row)
+                thisEigenvalue.add(A[i][i])
+            for(i in lastEigenvalue.indices)
+                if(abs(lastEigenvalue[i]-thisEigenvalue[i])<0.0000000001)
+                {
+                    eigenvalue.add(thisEigenvalue[i])
+                    t++
+                }
+            if(t>row*100)
+            {
+                return eigenvalue
+            }
+            eigenvalue.clear()
+        }while(thisEigenvalue!=lastEigenvalue)
+        return thisEigenvalue
     }
 
     fun solveEquationWithLU(B:OperableMatrix):OperableMatrix
@@ -146,8 +179,8 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         }
 
         val LU=LU()
-        val L=LU.first
-        val U=LU.second
+        val L=LU.L
+        val U=LU.U
         val Y=solve(L,B)
         val UT=U.T()
 

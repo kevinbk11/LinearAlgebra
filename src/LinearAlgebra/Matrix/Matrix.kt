@@ -68,7 +68,8 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
                 spaceCount=matrix[r-1][c].toString().split(".")[0].length
                 s+=String.format(" %.${8-spaceCount}f",matrix[r-1][c])
             }
-            s+="]\n"
+            s+="]"
+            if(r!=row)s+="\n"
         }
         return s
     }
