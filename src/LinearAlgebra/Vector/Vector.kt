@@ -1,6 +1,7 @@
 package LinearAlgebra.Vector
 
 import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 
@@ -16,6 +17,11 @@ abstract class Vector(list: MutableList<Number>) {
 
     init {
         vector=list.toMutableList() as MutableList<Double>
+
+        for(index in vector.indices)
+            if(abs(vector[index])<0.000001)
+                vector[index]=0.0
+
         dim=list.size
     }
 
@@ -26,7 +32,7 @@ abstract class Vector(list: MutableList<Number>) {
         var s="[%.6f".format(this[1])
         for(e in vector.slice(1 until dim))
             s+=",%.6f".format(e)
-        s+="]\n"
+        s+="]"
         return s
     }
 
@@ -57,9 +63,11 @@ abstract class Vector(list: MutableList<Number>) {
     open infix fun dot(v:Vector):Double
     {
         var total = 0.0
+
         for(i in 1..dim)
             total+=v[i]*this[i]
-        return total
+
+        return if(total>0.00000001) total else 0.0
     }
 
     open infix fun cross(v: Vector): OperableVector {
@@ -73,10 +81,13 @@ abstract class Vector(list: MutableList<Number>) {
 
     open fun isZeroVector():Boolean
     {
-        for(ele in vector)
-            if(ele!=0.0)return false
+        /*for(ele in vector)
+            if(ele==0.0)return false*/
+        if(magnitude()>0.00000001)return false
         return true
     }
+
+
 
     open fun magnitude():Double
     {

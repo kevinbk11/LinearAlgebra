@@ -41,8 +41,7 @@ interface Operable {
 
         for(i in 1..row)
             for(j in 1..m.column)
-                for(k in 1..column)
-                    newMatrix[i][j]+=this[i][k]*m[k][j]
+                    newMatrix[i][j]=this[i] dot m.getColumnVector(j)
 
         return newMatrix
     }
