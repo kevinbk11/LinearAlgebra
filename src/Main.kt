@@ -93,13 +93,38 @@ fun main(args:Array<String>)
             .addRow(0.3,0.4,0.1)
             .create()
         var a = this
-            .addRow(0)
-            .addRow(1)
-            .addRow(0)
+            .addRow(7,1)
+            .addRow(0,1)
+            .addRow(-2,1)
             .create()
-        var t = this.addRow(6,-1).addRow(2,3).create()
-        val vb= OperableVectorBuilder()
-        vb.clearAfterCreate=true
+        var b = this
+            .addRow(-1)
+            .addRow(5)
+            .addRow(-2)
+            .create()
+        var test1 = this
+            .addRow(0,2,3)
+            .addRow(0,5,6)
+            .addRow(0,7,8)
+            .create()
+        var test2 = this
+            .addRow(1,2,3)
+            .addRow(4,5,6)
+            .addRow(7,8,9)
+            .create()
+        var test3 = this
+            .addRow(1,2,5)
+            .addRow(4,7,6)
+            .addRow(3,8,9)
+            .create()
+        var test4 = this
+            .addRow(0,2,3,0)
+            .addRow(0,5,6,0)
+            .addRow(0,7,8,0)
+            .addRow(0,0,0,0)
+            .create()
+        print(test2.LU())
+
 
     }
     val vb = OperableVectorBuilder()

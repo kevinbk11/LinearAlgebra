@@ -114,18 +114,49 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun LU():LUDataClass
     {
-        val L = IdentityMatrix(row)
+        val L=IdentityMatrix(row)
         val U = copy(this)
-        for(r1 in 1..row)
+
+        val minus:(Int,Int) -> Unit = {r,c->
+            val k = U[r][c]/U[c][c]
+            U[r]-=U[c]*k
+            L[r][c]=k
+        }
+
+        var deleted = 0//已被刪除的向量數量
+
+        for(c in 1..column)//這裡面在刪除列零向量
         {
-            for(r2 in r1+1..row)
+            if(U.getColumnVector(c-deleted).isZeroVector())
             {
-                val k = U[r2][r1]/U[r1][r1]
-                U[r2]-=(U[r1]*(k))
-                L[r2][r1]=k
+                U.removeColumn(c-deleted)
+                deleted++
+                //若要刪除原本的1 2 4行 刪除第1行之後 原本的2 4行在新的矩陣中是1 3 所以要把2跟4扣除1
+                //而刪除原本的2(新的1)之後 若要刪除原本的4(新的2) 必須要將4扣除2 才會正確
             }
         }
-        return LUDataClass(L,U)
+
+        for(c in 1..U.column)
+            for(r in c+1..U.row)
+                if(U[r][c]!=0.0)
+                    minus(r,c)
+
+        val newU=ZeroMatrix(row,column)
+
+        for(r in 1..row)
+        {
+            var Ucolumn=1
+            for(c in 1..column)
+            {
+                if(this.getColumnVector(c).isNotZeroVector())
+                {
+                    newU[r][c]=U[r][Ucolumn]
+                    Ucolumn++
+                }
+            }
+        }
+
+        return LUDataClass(L,newU)
     }
 
     fun eigenvalue():List<Double>
@@ -192,5 +223,29 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         val X=solve(UT,Y)
         for(i in 1..row/2)X[i][1]=X[row+1-i][1].also { X[row+1-i][1]= X[i][1]}
        return X
+    }
+    fun gauss():OperableMatrix
+    {
+        val m = copy(this)
+
+        val minus:(Int,Int) -> Unit = {r,c->
+            val k = m[r][c]/m[c][c]
+            m[r]-=m[c]*k
+        }
+
+        for(c in 1..column)
+            for(r in c+1..row)
+                if(m[r][c]!=0.0)
+                    minus(r,c)
+
+        for(c in column downTo 1)
+        {
+            for(r in c-1 downTo 1)
+                if(m[r][c]!=0.0)
+                    minus(r,c)
+            m[c]=m[c]/m[c][c]
+        }
+
+        return m
     }
 }

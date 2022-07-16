@@ -38,7 +38,7 @@ abstract class Vector(list: MutableList<Number>) {
 
     operator fun get(m:Int):Double{return vector[m-1]}
 
-    operator fun set(i: Int, value: Number) { vector[i-1]=value.toDouble() }
+    operator fun set(i: Int, value: Number) { if(abs(value as Double)>0.00001) vector[i-1]=value.toDouble() else vector[i-1]=0.0 }
 
     override fun equals(other: Any?): Boolean {
 
@@ -46,13 +46,11 @@ abstract class Vector(list: MutableList<Number>) {
         {
             is Vector->
             {
-
                 if(other.dim!=dim)return false
                 else
                 {
                     for(i in 1..dim)
-                        if(other[i].toFloat()!=this[i].toFloat())
-                            return false
+                        if(other[i].toFloat()!=this[i].toFloat()) return false
                     return true
                 }
             }
@@ -85,7 +83,10 @@ abstract class Vector(list: MutableList<Number>) {
         return true
     }
 
-
+    open fun isNotZeroVector():Boolean
+    {
+        return !isZeroVector()
+    }
 
     open fun magnitude():Double
     {

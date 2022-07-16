@@ -24,8 +24,8 @@ fun gram(vectorSet:MutableList<OperableVector>):MutableList<OperableVector>
 
     return newVectorSet
 
-    //修正gram-schmidt計算線性依賴的向量集合時異常的狀況
-    //新增專門用來傳遞QR矩陣和LU矩陣的資料類別
-    //求特徵值的功能完成
+ /*修正gram-schmidt計算線性依賴的向量集合時異常的狀況
+    新增專門用來傳遞QR矩陣和LU矩陣的資料類別
+    求特徵值的功能完成*/
     //todo 向量集合的實作
 }
