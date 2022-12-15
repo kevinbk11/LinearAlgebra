@@ -36,7 +36,6 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun det():Double
     {
-
         if(row!=column)throw error("This matrix is not m*m matrix!")
         if(row==1)return this[1][1]
         var total = 0.0
