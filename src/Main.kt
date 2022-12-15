@@ -1,14 +1,15 @@
 import LinearAlgebra.Matrix.*
 import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
+import LinearAlgebra.RandomGenerator.RandomMatrixGenerator
+import LinearAlgebra.RandomGenerator.RandomVectorGenerator
 import LinearAlgebra.Vector.*
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 
 import LinearAlgebra.copy
-import java.lang.Math.pow
-import java.lang.Math.sqrt
+import java.lang.Math.*
 import java.math.BigDecimal
 import java.math.BigInteger
-
+import kotlin.random.Random.Default.nextInt
 
 
 fun main(args:Array<String>)
@@ -102,28 +103,12 @@ fun main(args:Array<String>)
             .addRow(5)
             .addRow(-2)
             .create()
-        var test1 = this
-            .addRow(0,2,3)
-            .addRow(0,5,6)
-            .addRow(0,7,8)
-            .create()
-        var test2 = this
-            .addRow(1,2,3)
-            .addRow(4,5,6)
-            .addRow(7,8,9)
-            .create()
-        var test3 = this
-            .addRow(1,2,5)
-            .addRow(4,7,6)
-            .addRow(3,8,9)
-            .create()
-        var test4 = this
-            .addRow(0,2,3,0)
-            .addRow(0,5,6,0)
-            .addRow(0,7,8,0)
-            .addRow(0,0,0,0)
-            .create()
-        print(test2.LU())
+        val matrixGenerator= RandomMatrixGenerator(3,3)
+        val test = this.addRow(1,2,1)
+            .addRow(6,-1,0)
+            .addRow(-1,-2,-1).create()
+        //println(test)
+
 
 
     }

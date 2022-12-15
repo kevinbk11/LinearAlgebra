@@ -37,6 +37,58 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         column--
     }
 
+    fun isRowEchelonForm():Boolean
+    {
+        var findZeroVector = false
+        var lastLeadingPlace = 0
+        for(vector in this)
+        {
+            if(findZeroVector)
+            {
+                if(vector.isNotZeroVector())
+                    return false
+                else
+                    continue
+            }
+            findZeroVector=vector.isZeroVector()
+            if(findZeroVector)continue
+            for(index in 1..vector.dim)
+            {
+                if(vector[index]!=0.0)
+                {
+                    if(index<=lastLeadingPlace)
+                        return false
+                    lastLeadingPlace=index
+                    break
+                }
+            }
+        }
+        return true
+    }
+    fun isNotRowEchelonForm():Boolean
+    {
+        return !isRowEchelonForm()
+    }
+    fun isReducedRowEchelonForm():Boolean
+    {
+        if(isNotRowEchelonForm())
+            return false
+        else
+        {
+            for(vector in this)
+            {
+                for(index in 1..vector.dim)
+                {
+                    if(vector[index]==1.0)
+                        break
+                    else if(vector[index]!=0.0)
+                        return false
+                }
+            }
+        }
+        return true
+    }
+
     operator fun get(row:Int): OperableVector { return matrix[row-1] as OperableVector }
 
     operator fun set(row:Int,v:Vector) { matrix[row-1]=v }

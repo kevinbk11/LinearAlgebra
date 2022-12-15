@@ -36,15 +36,15 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun det():Double
     {
+
         if(row!=column)throw error("This matrix is not m*m matrix!")
         if(row==1)return this[1][1]
-        if(row==2)return this[1][1]*this[2][2]-this[1][2]*this[2][1]
         var total = 0.0
         for(c in 1..column)
         {
             total+=this[1][c]*cofactor(1,c)*pow(-1.0,c.toDouble()+1.0 )
         }
-        return total
+        return if(abs(total)<0.000001)0.0 else total
     }
     fun cofactor(m:Int,n:Int):Double
     {
@@ -123,40 +123,24 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
             L[r][c]=k
         }
 
-        var deleted = 0//已被刪除的向量數量
-
-        for(c in 1..column)//這裡面在刪除列零向量
-        {
-            if(U.getColumnVector(c-deleted).isZeroVector())
-            {
-                U.removeColumn(c-deleted)
-                deleted++
-                //若要刪除原本的1 2 4行 刪除第1行之後 原本的2 4行在新的矩陣中是1 3 所以要把2跟4扣除1
-                //而刪除原本的2(新的1)之後 若要刪除原本的4(新的2) 必須要將4扣除2 才會正確
-            }
+        val move:(Int,Boolean)-> Unit = {r,reverse->
+            if(reverse)
+                for(i in r until 1)
+                    U[i]=U[i-1].also { U[i-1]=U[i] }
+            else
+                for(i in r until row)
+                    U[i]=U[i+1].also { U[i+1]=U[i] }
         }
 
         for(c in 1..U.column)
             for(r in c+1..U.row)
-                if(U[r][c]!=0.0)
-                    minus(r,c)
-
-        val newU=ZeroMatrix(row,column)
-
-        for(r in 1..row)
-        {
-            var Ucolumn=1
-            for(c in 1..column)
             {
-                if(this.getColumnVector(c).isNotZeroVector())
-                {
-                    newU[r][c]=U[r][Ucolumn]
-                    Ucolumn++
-                }
+                if(U[c][c]==0.0)
+                    move(c,false)
+                minus(r,c)
             }
-        }
 
-        return LUDataClass(L,newU)
+        return LUDataClass(L,U)
     }
 
     fun eigenvalue():List<Double>
@@ -174,21 +158,37 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
             thisEigenvalue.clear()
             QR=A.QR()
             A=QR.R*QR.Q
+            t++
+
             for(i in 1..row)
-                thisEigenvalue.add(A[i][i])
-            for(i in lastEigenvalue.indices)
+                thisEigenvalue.add(String.format("%.4f",A[i][i]).toDouble())
+
+            /*for(i in lastEigenvalue.indices)
                 if(abs(lastEigenvalue[i]-thisEigenvalue[i])<0.0000000001)
                 {
                     eigenvalue.add(thisEigenvalue[i])
-                    t++
-                }
-            if(t>row*100)
+
+                }*/
+            if(t>row*10)
             {
-                return eigenvalue
+                return thisEigenvalue
             }
-            eigenvalue.clear()
+            println(thisEigenvalue)
         }while(thisEigenvalue!=lastEigenvalue)
         return thisEigenvalue
+    }
+
+    fun eigenvector()
+    {
+        val eigenvalue=eigenvalue()
+        for(i in eigenvalue.indices)
+        {
+            println(eigenvalue[i])
+            val A=copy(this)
+            for(j in 1..row)
+                A[j][j]-=eigenvalue[i]
+            println(A.det())
+        }
     }
 
     fun solveEquationWithLU(B:OperableMatrix):OperableMatrix
@@ -233,17 +233,35 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
             m[r]-=m[c]*k
         }
 
+        val move:(Int,Boolean)-> Unit = {r,reverse->
+            if(reverse)
+                for(i in r downTo 2)
+                    m[i]=m[i-1].also { m[i-1]=m[i] }
+            else
+                for(i in r until row)
+                    m[i]=m[i+1].also { m[i+1]=m[i] }
+        }
+
         for(c in 1..column)
+        {
             for(r in c+1..row)
-                if(m[r][c]!=0.0)
-                    minus(r,c)
+            {
+                if(m[c][c]==0.0)
+                    move(c,false)
+                minus(r,c)
+            }
+        }
+        if(m.isReducedRowEchelonForm())return m
 
         for(c in column downTo 1)
         {
             for(r in c-1 downTo 1)
-                if(m[r][c]!=0.0)
-                    minus(r,c)
-            m[c]=m[c]/m[c][c]
+            {
+                if(m[c][c]==0.0)
+                    continue
+                minus(r,c)
+            }
+            if(m[c][c]!=0.0)m[c]=m[c]/m[c][c]
         }
 
         return m
