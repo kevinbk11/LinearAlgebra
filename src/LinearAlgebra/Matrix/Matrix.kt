@@ -37,6 +37,58 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         column--
     }
 
+    fun isRowEchelonForm():Boolean
+    {
+        var findZeroVector = false
+        var lastLeadingPlace = 0
+        for(vector in this)
+        {
+            if(findZeroVector)
+            {
+                if(vector.isNotZeroVector())
+                    return false
+                else
+                    continue
+            }
+            findZeroVector=vector.isZeroVector()
+            if(findZeroVector)continue
+            for(index in 1..vector.dim)
+            {
+                if(vector[index]!=0.0)
+                {
+                    if(index<=lastLeadingPlace)
+                        return false
+                    lastLeadingPlace=index
+                    break
+                }
+            }
+        }
+        return true
+    }
+    fun isNotRowEchelonForm():Boolean
+    {
+        return !isRowEchelonForm()
+    }
+    fun isReducedRowEchelonForm():Boolean
+    {
+        if(isNotRowEchelonForm())
+            return false
+        else
+        {
+            for(vector in this)
+            {
+                for(index in 1..vector.dim)
+                {
+                    if(vector[index]==1.0)
+                        break
+                    else if(vector[index]!=0.0)
+                        return false
+                }
+            }
+        }
+        return true
+    }
+
     operator fun get(row:Int): OperableVector { return matrix[row-1] as OperableVector }
 
     operator fun set(row:Int,v:Vector) { matrix[row-1]=v }
@@ -49,8 +101,7 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
             {
                 if(other.row!=row || other.column!=column) return false
                 for(i in 1..other.row)
-                    for(j in 1..other.column)
-                        if(other[i][j].toFloat()!=this[i][j].toFloat()) return false
+                        if(other[i]!=this[i]) return false
                 return true
             }
             else -> return false
@@ -62,11 +113,11 @@ abstract class Matrix(private val matrix: MutableList<Vector>) {
         for(r in 1..row)
         {
             var spaceCount=matrix[r-1][1].toString().split(".")[0].length
-            s+=String.format("[%.${8-spaceCount}f",matrix[r-1][1])
+            s+=String.format("[%.${6-spaceCount}f",matrix[r-1][1])
             for(c in 2..column)
             {
                 spaceCount=matrix[r-1][c].toString().split(".")[0].length
-                s+=String.format(" %.${8-spaceCount}f",matrix[r-1][c])
+                s+=String.format(" %.${6-spaceCount}f",matrix[r-1][c])
             }
             s+="]"
             if(r!=row)s+="\n"

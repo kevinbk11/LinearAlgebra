@@ -1,14 +1,15 @@
 import LinearAlgebra.Matrix.*
 import LinearAlgebra.Matrix.Builder.OperableMatrixBuilder
+import LinearAlgebra.RandomGenerator.RandomMatrixGenerator
+import LinearAlgebra.RandomGenerator.RandomVectorGenerator
 import LinearAlgebra.Vector.*
 import LinearAlgebra.Vector.Builder.OperableVectorBuilder
 
 import LinearAlgebra.copy
-import java.lang.Math.pow
-import java.lang.Math.sqrt
+import java.lang.Math.*
 import java.math.BigDecimal
 import java.math.BigInteger
-
+import kotlin.random.Random.Default.nextInt
 
 
 fun main(args:Array<String>)
@@ -93,13 +94,22 @@ fun main(args:Array<String>)
             .addRow(0.3,0.4,0.1)
             .create()
         var a = this
-            .addRow(0)
-            .addRow(1)
-            .addRow(0)
+            .addRow(7,1)
+            .addRow(0,1)
+            .addRow(-2,1)
             .create()
-        var t = this.addRow(6,-1).addRow(2,3).create()
-        val vb= OperableVectorBuilder()
-        vb.clearAfterCreate=true
+        var b = this
+            .addRow(-1)
+            .addRow(5)
+            .addRow(-2)
+            .create()
+        val matrixGenerator= RandomMatrixGenerator(3,3)
+        val test = this.addRow(1,2,1)
+            .addRow(6,-1,0)
+            .addRow(-1,-2,-1).create()
+        //println(test)
+
+
 
     }
     val vb = OperableVectorBuilder()

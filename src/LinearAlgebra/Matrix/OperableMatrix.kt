@@ -38,13 +38,12 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
     {
         if(row!=column)throw error("This matrix is not m*m matrix!")
         if(row==1)return this[1][1]
-        if(row==2)return this[1][1]*this[2][2]-this[1][2]*this[2][1]
         var total = 0.0
         for(c in 1..column)
         {
             total+=this[1][c]*cofactor(1,c)*pow(-1.0,c.toDouble()+1.0 )
         }
-        return total
+        return if(abs(total)<0.000001)0.0 else total
     }
     fun cofactor(m:Int,n:Int):Double
     {
@@ -114,17 +113,32 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
 
     fun LU():LUDataClass
     {
-        val L = IdentityMatrix(row)
+        val L=IdentityMatrix(row)
         val U = copy(this)
-        for(r1 in 1..row)
-        {
-            for(r2 in r1+1..row)
-            {
-                val k = U[r2][r1]/U[r1][r1]
-                U[r2]-=(U[r1]*(k))
-                L[r2][r1]=k
-            }
+
+        val minus:(Int,Int) -> Unit = {r,c->
+            val k = U[r][c]/U[c][c]
+            U[r]-=U[c]*k
+            L[r][c]=k
         }
+
+        val move:(Int,Boolean)-> Unit = {r,reverse->
+            if(reverse)
+                for(i in r until 1)
+                    U[i]=U[i-1].also { U[i-1]=U[i] }
+            else
+                for(i in r until row)
+                    U[i]=U[i+1].also { U[i+1]=U[i] }
+        }
+
+        for(c in 1..U.column)
+            for(r in c+1..U.row)
+            {
+                if(U[c][c]==0.0)
+                    move(c,false)
+                minus(r,c)
+            }
+
         return LUDataClass(L,U)
     }
 
@@ -143,21 +157,37 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
             thisEigenvalue.clear()
             QR=A.QR()
             A=QR.R*QR.Q
+            t++
+
             for(i in 1..row)
-                thisEigenvalue.add(A[i][i])
-            for(i in lastEigenvalue.indices)
+                thisEigenvalue.add(String.format("%.4f",A[i][i]).toDouble())
+
+            /*for(i in lastEigenvalue.indices)
                 if(abs(lastEigenvalue[i]-thisEigenvalue[i])<0.0000000001)
                 {
                     eigenvalue.add(thisEigenvalue[i])
-                    t++
-                }
-            if(t>row*100)
+
+                }*/
+            if(t>row*10)
             {
-                return eigenvalue
+                return thisEigenvalue
             }
-            eigenvalue.clear()
+            println(thisEigenvalue)
         }while(thisEigenvalue!=lastEigenvalue)
         return thisEigenvalue
+    }
+
+    fun eigenvector()
+    {
+        val eigenvalue=eigenvalue()
+        for(i in eigenvalue.indices)
+        {
+            println(eigenvalue[i])
+            val A=copy(this)
+            for(j in 1..row)
+                A[j][j]-=eigenvalue[i]
+            println(A.det())
+        }
     }
 
     fun solveEquationWithLU(B:OperableMatrix):OperableMatrix
@@ -192,5 +222,47 @@ open class OperableMatrix(private var matrix: MutableList<Vector>): Matrix(matri
         val X=solve(UT,Y)
         for(i in 1..row/2)X[i][1]=X[row+1-i][1].also { X[row+1-i][1]= X[i][1]}
        return X
+    }
+    fun gauss():OperableMatrix
+    {
+        val m = copy(this)
+
+        val minus:(Int,Int) -> Unit = {r,c->
+            val k = m[r][c]/m[c][c]
+            m[r]-=m[c]*k
+        }
+
+        val move:(Int,Boolean)-> Unit = {r,reverse->
+            if(reverse)
+                for(i in r downTo 2)
+                    m[i]=m[i-1].also { m[i-1]=m[i] }
+            else
+                for(i in r until row)
+                    m[i]=m[i+1].also { m[i+1]=m[i] }
+        }
+
+        for(c in 1..column)
+        {
+            for(r in c+1..row)
+            {
+                if(m[c][c]==0.0)
+                    move(c,false)
+                minus(r,c)
+            }
+        }
+        if(m.isReducedRowEchelonForm())return m
+
+        for(c in column downTo 1)
+        {
+            for(r in c-1 downTo 1)
+            {
+                if(m[c][c]==0.0)
+                    continue
+                minus(r,c)
+            }
+            if(m[c][c]!=0.0)m[c]=m[c]/m[c][c]
+        }
+
+        return m
     }
 }
